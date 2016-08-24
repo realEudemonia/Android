@@ -9,52 +9,43 @@ var colorDisplay = document.querySelector("#colorDisplay");
 var messageDisplay = document.querySelector("#message");
 var h1 = document.querySelector("h1");
 var resetButton = document.querySelector("#reset");
-var easyBtn = document.querySelector("#easyBtn");
-var hardBtn = document.querySelector("#hardBtn");
+var modeButton = document.querySelectorAll(".mode");
 var numSquares;
 
-easyBtn.addEventListener("click", function () {
-  easyBtn.classList.add("selected");
-  hardBtn.classList.remove("selected");
-  numSquares = 3;
+
+for (var i = 0; i < modeButton.length; i++){
+  modeButton[i].addEventListener("click", function () {
+    modeButton[0].classList.remove("selected");
+    modeButton[1].classList.remove("selected");
+    this.classList.add("selected");
+    this.textContent === "Easy" ? numSquares = 3: numSquares = 6;
+    reset();
+  })
+}
+
+function reset() {
+  //generate all new colors
   colors = generateRandomColors(numSquares);
+  //pick a new random color from array
   pickedColor = pickColor();
+  //change colorDisplay to match picked color
   colorDisplay.textContent = pickedColor;
+  //change colors of square
+  resetButton.textContent = "New Colors";
   for (var i = 0; i < squares.length; i++) {
-    if (colors[i]) {
+    if(colors[i]){
+      squares[i].style.display = "block";
       squares[i].style.background = colors[i];
-    } else {
+    }else{
       squares[i].style.display = "none";
     }
   }
   h1.style.background = "steelblue";
-});
-
-  hardBtn.addEventListener("click", function () {
-    hardBtn.classList.add("selected");
-    easyBtn.classList.remove("selected");
-    numSquares = 6;
-    colors = generateRandomColors(numSquares);
-    pickedColor = pickColor();
-    colorDisplay.textContent = pickedColor;
-    for (var i = 0; i < squares.length; i++) {
-      squares[i].style.background = colors[i];
-      squares[i].style.display = "block";
-    }
-  });
+  messageDisplay.textContent = "";
+}
 
   resetButton.addEventListener("click", function () {
-    //generate all new colors
-    colors = generateRandomColors(numSquares);
-    //pick a new random color from array
-    pickedColor = pickColor();
-    //change colorDisplay to match picked color
-    colorDisplay.textContent = pickedColor;
-    //change colors of square
-    for (var i = 0; i < squares.length; i++) {
-      squares[i].style.background = colors[i];
-    }
-    h1.style.background = "steelblue";
+    reset();
   });
 
   colorDisplay.textContent = pickedColor;
